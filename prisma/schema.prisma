@@ -13,15 +13,74 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  NOT_SEEN
+  WATCHED
+  SUITABLE
+  NOT_SUITABLE
+}
+
 model Admin {
   id Int @default(autoincrement()) @id
   email String @unique
   username String @unique
   password String
   avatar String?
-  phone_number String
+  phone_number Int
   address String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Enterprise {
+  id Int @default(autoincrement()) @id
+  madn Int @unique
+  mast Int @unique
+  name String @unique
+  address String
+  email String @unique
+  phone_number Int
+  about_me String?
+  adminId Int @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id Int @default(autoincrement()) @id
+  username String @unique
+  password String
+  fullname String?
+  avatar String?
+  email String @unique
+  phone_number Int?
+  address String?
+  birthday String?
+  gender Boolean?
+  CV String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id Int @default(autoincrement()) @id
+  title String
+  job_description String
+  job_requirements String
+  position String
+  salary String
+  working_time String
+  deadline_date String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Applications {
+  id Int @default(autoincrement()) @id
+  date_of_application String
+  status Status @default(NOT_SEEN)
+  score Int
+  CV String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
