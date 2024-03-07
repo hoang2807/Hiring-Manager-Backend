@@ -1,15 +1,20 @@
-/*
-  Warnings:
-
-  - Changed the type of `phone_number` on the `Admin` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-
-*/
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('NOT_SEEN', 'WATCHED', 'SUITABLE', 'NOT_SUITABLE');
 
--- AlterTable
-ALTER TABLE "Admin" DROP COLUMN "phone_number",
-ADD COLUMN     "phone_number" INTEGER NOT NULL;
+-- CreateTable
+CREATE TABLE "Admin" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "avatar" TEXT,
+    "phone_number" INTEGER NOT NULL,
+    "address" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Admin_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Enterprise" (
@@ -33,14 +38,15 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "fullname" TEXT,
+    "refreshToken" TEXT,
+    "fullName" TEXT,
     "avatar" TEXT,
     "email" TEXT NOT NULL,
     "phone_number" INTEGER,
     "address" TEXT,
     "birthday" TEXT,
     "gender" BOOLEAN,
-    "CV" TEXT,
+    "cv" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -56,6 +62,7 @@ CREATE TABLE "Job" (
     "position" TEXT NOT NULL,
     "salary" TEXT NOT NULL,
     "working_time" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
     "deadline_date" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -69,12 +76,18 @@ CREATE TABLE "Applications" (
     "date_of_application" TEXT NOT NULL,
     "status" "Status" NOT NULL DEFAULT 'NOT_SEEN',
     "score" INTEGER NOT NULL,
-    "CV" TEXT NOT NULL,
+    "cv" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Applications_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_username_key" ON "Admin"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Enterprise_madn_key" ON "Enterprise"("madn");

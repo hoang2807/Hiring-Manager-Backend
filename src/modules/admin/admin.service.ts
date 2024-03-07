@@ -5,10 +5,10 @@ import { DatabaseService } from 'src/database/database.service';
 export class AdminService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async findOne(username: string) {
-    return this.databaseService.admin.findUnique({
+  async findOneByEmail(email: string) {
+    return await this.databaseService.admin.findUnique({
       where: {
-        username,
+        email,
       },
     });
   }

@@ -1,7 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminService } from 'src/modules/admin/admin.service';
-import { LoginAdminDto } from 'src/modules/admin/dto/login-admin.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -10,4 +15,9 @@ export class AdminController {
 
   // @Post('auth/login')
   // login(@Body loginAdminDto: LoginAdminDto) {}
+
+  @Get('test')
+  test() {
+    throw new UnauthorizedException();
+  }
 }
