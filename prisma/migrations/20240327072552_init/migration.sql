@@ -8,7 +8,7 @@ CREATE TABLE "Admin" (
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "avatar" TEXT,
-    "phone_number" INTEGER NOT NULL,
+    "phone_number" INTEGER,
     "address" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -64,6 +64,7 @@ CREATE TABLE "Job" (
     "working_time" TEXT NOT NULL,
     "location" TEXT NOT NULL,
     "deadline_date" TEXT NOT NULL,
+    "enterpriseId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

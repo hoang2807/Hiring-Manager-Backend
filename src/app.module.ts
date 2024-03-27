@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthAdminModule } from 'src/auth/auth_admin/auth_admin.module';
 import { AuthUserModule } from 'src/auth/auth_user/auth_user.module';
+import { JobModule } from './modules/job/job.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthUserModule } from 'src/auth/auth_user/auth_user.module';
     AuthAdminModule,
     AuthUserModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],

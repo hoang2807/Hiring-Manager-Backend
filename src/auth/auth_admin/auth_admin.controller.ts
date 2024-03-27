@@ -19,8 +19,14 @@ export class AuthAdminController {
     @Body('password') password: string,
     @Body('username') username: string,
     @Body('email') email: string,
+    @Body('enterpriseId') enterpriseId: number,
   ) {
-    return await this.authAdminService.createUser(username, email, password);
+    return await this.authAdminService.createUser(
+      username,
+      email,
+      password,
+      enterpriseId,
+    );
   }
 
   // @UseGuards(AuthGuard('magiclogin'))

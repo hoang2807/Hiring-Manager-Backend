@@ -31,7 +31,12 @@ export class AuthAdminService {
     };
   }
 
-  async createUser(username: string, email: string, password: string) {
+  async createUser(
+    username: string,
+    email: string,
+    password: string,
+    enterpriseId: number,
+  ) {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     const user = await this.databaseService.admin.create({
@@ -39,6 +44,7 @@ export class AuthAdminService {
         username,
         email,
         password: hashedPassword,
+        enterpriseId,
       },
     });
 

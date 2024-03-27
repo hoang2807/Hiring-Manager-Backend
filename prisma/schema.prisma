@@ -28,6 +28,7 @@ model Admin {
   avatar String?
   phone_number Int?
   address String?
+  enterpriseId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -73,6 +74,7 @@ model Job {
   working_time String
   location String
   deadline_date String
+  enterpriseId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
