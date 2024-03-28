@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthAdminModule } from 'src/auth/auth_admin/auth_admin.module';
 import { AuthUserModule } from 'src/auth/auth_user/auth_user.module';
 import { JobModule } from './modules/job/job.module';
+import { EnterpriseModule } from './modules/enterprise/enterprise.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JobModule } from './modules/job/job.module';
     AuthUserModule,
     ConfigModule.forRoot({ isGlobal: true }),
     JobModule,
+    EnterpriseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

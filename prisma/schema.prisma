@@ -73,6 +73,7 @@ model Job {
   salary String
   working_time String
   location String
+  benefits String
   deadline_date String
   enterpriseId Int
   createdAt DateTime @default(now())
