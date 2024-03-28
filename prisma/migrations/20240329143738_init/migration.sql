@@ -10,6 +10,7 @@ CREATE TABLE "Admin" (
     "avatar" TEXT,
     "phone_number" INTEGER,
     "address" TEXT,
+    "enterpriseId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -57,12 +58,14 @@ CREATE TABLE "User" (
 CREATE TABLE "Job" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
+    "enterpriseName" TEXT NOT NULL,
     "job_description" TEXT NOT NULL,
     "job_requirements" TEXT NOT NULL,
     "position" TEXT NOT NULL,
     "salary" TEXT NOT NULL,
     "working_time" TEXT NOT NULL,
     "location" TEXT NOT NULL,
+    "benefits" TEXT NOT NULL,
     "deadline_date" TEXT NOT NULL,
     "enterpriseId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -78,6 +81,7 @@ CREATE TABLE "Applications" (
     "status" "Status" NOT NULL DEFAULT 'NOT_SEEN',
     "score" INTEGER NOT NULL,
     "cv" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

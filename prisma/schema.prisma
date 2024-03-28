@@ -67,9 +67,11 @@ model User {
 model Job {
   id Int @default(autoincrement()) @id
   title String
+  enterpriseName String
   job_description String
   job_requirements String
   position String
+  skills String
   salary String
   working_time String
   location String
@@ -86,6 +88,7 @@ model Applications {
   status Status @default(NOT_SEEN)
   score Int
   cv String
+  userId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
