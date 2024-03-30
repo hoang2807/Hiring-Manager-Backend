@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AuthAdminService } from './auth_admin.service';
 import { AuthAdminController } from './auth_admin.controller';
 import { AdminModule } from 'src/modules/admin/admin.module';
-import { MagicAdminLoginStrategy } from 'src/auth/auth_admin/magiclogin.strategy';
 import { DatabaseModule } from 'src/database/database.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -22,11 +21,6 @@ import { LocalStrategy } from 'src/auth/auth_admin/local.auth';
     }),
   ],
   controllers: [AuthAdminController],
-  providers: [
-    AuthAdminService,
-    MagicAdminLoginStrategy,
-    JwtStrategy,
-    LocalStrategy,
-  ],
+  providers: [AuthAdminService, JwtStrategy, LocalStrategy],
 })
 export class AuthAdminModule {}

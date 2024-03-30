@@ -35,4 +35,20 @@ export class JobService {
       },
     });
   }
+
+  async pagination(page: number, skip: number, take: number) {
+    return this.databaseService.job.findMany({
+      skip: take * page - take,
+      take,
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async getJobById(id: number) {
+    return this.databaseService.job.findMany({
+      where: {
+        id,
+      },
+    });
+  }
 }

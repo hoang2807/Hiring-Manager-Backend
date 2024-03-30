@@ -12,6 +12,14 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.useGlobalFilters(new HttpExceptionFilter());
+  const options = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
+  };
+  app.enableCors(options);
 
   const config = new DocumentBuilder()
     .setTitle('Hiring Api')

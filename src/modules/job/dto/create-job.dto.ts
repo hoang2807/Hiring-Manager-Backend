@@ -7,6 +7,10 @@ export class CreateJobDto {
 
   @IsNotEmpty()
   @IsString()
+  enterpriseName: string;
+
+  @IsNotEmpty()
+  @IsString()
   job_description: string;
 
   @IsNotEmpty()
@@ -19,7 +23,15 @@ export class CreateJobDto {
 
   @IsNotEmpty()
   @IsString()
+  skills: string;
+
+  @IsNotEmpty()
+  @IsString()
   salary: string;
+
+  @IsNotEmpty()
+  @IsString()
+  benefits: string;
 
   @IsNotEmpty()
   @IsString()
