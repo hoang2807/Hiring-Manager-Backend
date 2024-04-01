@@ -1,45 +1,48 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
-  Patch,
+  Put,
   Param,
-  Delete,
+  UseInterceptors,
+  UploadedFile,
+  Post,
 } from '@nestjs/common';
 import { EnterpriseService } from './enterprise.service';
-import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('enterprise')
 export class EnterpriseController {
   constructor(private readonly enterpriseService: EnterpriseService) {}
 
-  @Post()
-  create(@Body() createEnterpriseDto: CreateEnterpriseDto) {
-    return this.enterpriseService.create(createEnterpriseDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.enterpriseService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.enterpriseService.findOne(+id);
+  async getById(@Param('id') id: string) {
+    return this.enterpriseService.getById(+id);
   }
 
-  @Patch(':id')
-  update(
+  @Put(':id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload/enterprise',
+        filename(req, file, cb) {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async upload(
+    @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
     @Body() updateEnterpriseDto: UpdateEnterpriseDto,
   ) {
-    return this.enterpriseService.update(+id, updateEnterpriseDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.enterpriseService.remove(+id);
+    return this.enterpriseService.update(+id, updateEnterpriseDto, file.path);
   }
 }
