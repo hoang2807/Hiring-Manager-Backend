@@ -47,7 +47,7 @@ export class JobService {
   async getJobById(id: number) {
     return this.databaseService.job.findMany({
       where: {
-        id,
+        enterpriseId: id,
       },
     });
   }
