@@ -40,6 +40,11 @@ export class JobController {
     return this.jobService.pagination(+page, +skip, +take);
   }
 
+  @Get('list/:id')
+  async getListJob(@Param('id') id: string) {
+    return this.jobService.getListJob(+id);
+  }
+
   @Get(':id')
   async getJobById(@Param('id') id: string) {
     return this.jobService.getJobById(+id);

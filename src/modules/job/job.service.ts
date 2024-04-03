@@ -44,10 +44,18 @@ export class JobService {
     });
   }
 
-  async getJobById(id: number) {
+  async getListJob(id: number) {
     return this.databaseService.job.findMany({
       where: {
         enterpriseId: id,
+      },
+    });
+  }
+
+  async getJobById(id: number) {
+    return this.databaseService.job.findUnique({
+      where: {
+        id,
       },
     });
   }
