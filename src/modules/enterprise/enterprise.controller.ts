@@ -6,7 +6,6 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
-  Post,
 } from '@nestjs/common';
 import { EnterpriseService } from './enterprise.service';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';

@@ -22,7 +22,7 @@ export class AuthUserController {
 
   @Public()
   @Post('signin')
-  async signIn(@Body() loginDto: LoginDto): Promise<Token> {
+  async signIn(@Body() loginDto: LoginDto) {
     return await this.authUseService.signIn(loginDto);
   }
 

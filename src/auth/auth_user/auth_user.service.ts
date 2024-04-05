@@ -32,7 +32,7 @@ export class AuthUserService {
     return tokens;
   }
 
-  async signIn(loginDto: LoginDto): Promise<Token> {
+  async signIn(loginDto: LoginDto) {
     const user = await this.databaseService.user.findUnique({
       where: {
         username: loginDto.username,
@@ -50,7 +50,7 @@ export class AuthUserService {
 
     const tokens = await this.getTokens(user.id, user.username);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
-    return tokens;
+    return { tokens, user };
   }
 
   async logout(userId: number) {

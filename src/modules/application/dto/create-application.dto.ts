@@ -1,5 +1,5 @@
 export class CreateApplicationDto {
   date_of_application: string;
-  cv: string;
+  jobId: number;
   userId: number;
 }
