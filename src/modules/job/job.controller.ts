@@ -45,6 +45,12 @@ export class JobController {
     return this.jobService.getListJob(+id);
   }
 
+
+  @Get('search/:text')
+  async search(@Param('text') text: string) {
+    return this.jobService.search(text);
+  }
+
   @Get(':id')
   async getJobById(@Param('id') id: string) {
     return this.jobService.getJobById(+id);

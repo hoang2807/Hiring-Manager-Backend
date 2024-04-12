@@ -59,4 +59,31 @@ export class JobService {
       },
     });
   }
+
+  async search(text: string) {
+    return this.databaseService.job.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: text,
+              mode: 'insensitive',
+            },
+          },
+          {
+            skills: {
+              contains: text,
+              mode: 'insensitive',
+            },
+          },
+          {
+            enterpriseName: {
+              contains: text,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    });
+  }
 }
