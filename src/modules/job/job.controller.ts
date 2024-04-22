@@ -32,19 +32,14 @@ export class JobController {
   }
 
   @Get('pagination')
-  async pagination(
-    @Query('skip') page: string,
-    @Query('skip') skip: string,
-    @Query('take') take: string,
-  ) {
-    return this.jobService.pagination(+page, +skip, +take);
+  async pagination(@Query('page') page: string, @Query('take') take: string) {
+    return this.jobService.pagination(+page, +take);
   }
 
   @Get('list/:id')
   async getListJob(@Param('id') id: string) {
     return this.jobService.getListJob(+id);
   }
-
 
   @Get('search/:text')
   async search(@Param('text') text: string) {

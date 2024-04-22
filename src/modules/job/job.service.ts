@@ -36,7 +36,7 @@ export class JobService {
     });
   }
 
-  async pagination(page: number, skip: number, take: number) {
+  async pagination(page: number, take: number) {
     return this.databaseService.job.findMany({
       skip: take * page - take,
       take,
