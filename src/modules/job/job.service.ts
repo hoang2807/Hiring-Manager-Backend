@@ -60,7 +60,7 @@ export class JobService {
     });
   }
 
-  async search(text: string) {
+  async search(text: string, location: string) {
     return this.databaseService.job.findMany({
       where: {
         OR: [
@@ -79,6 +79,14 @@ export class JobService {
           {
             enterpriseName: {
               contains: text,
+              mode: 'insensitive',
+            },
+          },
+        ],
+        AND: [
+          {
+            location: {
+              contains: location,
               mode: 'insensitive',
             },
           },
