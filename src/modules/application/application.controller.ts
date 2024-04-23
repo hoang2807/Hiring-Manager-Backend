@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -39,5 +40,18 @@ export class ApplicationController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.applicationService.create(createApplicationDto, file.path);
+  }
+
+  @Get('')
+  async listJob(
+    @Query('enterpriseId') enterpriseId: string,
+    @Query('jobId') jobId: string,
+  ) {
+    return this.applicationService.listJob(+enterpriseId, +jobId);
+  }
+
+  @Get(':id')
+  async list(@Param('id') id: string) {
+    return this.applicationService.list(+id);
   }
 }

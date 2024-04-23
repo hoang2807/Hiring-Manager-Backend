@@ -91,6 +91,7 @@ model Applications {
   cv String
   userId Int
   jobId Int
+  enterpriseId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
