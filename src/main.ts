@@ -4,9 +4,11 @@ import { ResponseInterceptor } from 'src/common/interceptors/response.intercepto
 import { HttpExceptionFilter } from 'src/common/filter/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ResponseInterceptor());
@@ -19,6 +21,10 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true,
   };
+  app.useStaticAssets(join(process.cwd(), 'upload'), {
+    index: false,
+    prefix: '/public',
+  });
   app.enableCors(options);
 
   const config = new DocumentBuilder()

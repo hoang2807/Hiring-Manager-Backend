@@ -1,10 +1,16 @@
 import { DatabaseService } from 'src/database/database.service';
-import { Injectable, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Injectable,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { createReadStream } from 'fs';
 
 @Injectable()
 export class EnterpriseService {
@@ -50,5 +56,12 @@ export class EnterpriseService {
   )
   async upload(@UploadedFile() file) {
     console.log(file);
+  }
+
+  async getPhoto(path: string) {
+    const imageLocation = join(process.cwd(), 'upload', path);
+
+    const file = createReadStream(imageLocation);
+    return new StreamableFile(file);
   }
 }

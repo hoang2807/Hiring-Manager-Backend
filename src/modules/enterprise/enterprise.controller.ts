@@ -6,12 +6,16 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  Res,
+  StreamableFile,
 } from '@nestjs/common';
 import { EnterpriseService } from './enterprise.service';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { Response } from 'express';
+import { createReadStream } from 'fs';
 
 @Controller('enterprise')
 export class EnterpriseController {
