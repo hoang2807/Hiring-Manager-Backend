@@ -85,9 +85,8 @@ model Job {
 
 model Applications {
   id Int @default(autoincrement()) @id
-  date_of_application String
   status Status @default(NOT_SEEN)
-  score Int
+  score Int?
   cv String
   userId Int
   jobId Int

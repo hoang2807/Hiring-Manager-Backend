@@ -10,6 +10,7 @@ import { AuthUserModule } from 'src/auth/auth_user/auth_user.module';
 import { JobModule } from './modules/job/job.module';
 import { EnterpriseModule } from './modules/enterprise/enterprise.module';
 import { ApplicationModule } from './modules/application/application.module';
+import { NotificationGateway } from './notification/notification.gateway';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { ApplicationModule } from './modules/application/application.module';
     ApplicationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, NotificationGateway],
 })
 export class AppModule {}

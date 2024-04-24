@@ -11,7 +11,6 @@ export class ApplicationService {
         userId: +createApplicationDto.userId,
         cv,
         score: 0,
-        date_of_application: createApplicationDto.date_of_application,
         jobId: +createApplicationDto.jobId,
         enterpriseId: +createApplicationDto.enterpriseId,
       },
