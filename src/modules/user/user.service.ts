@@ -1,3 +1,4 @@
+import { UpdateApplicationDto } from './../application/dto/update-application.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +18,18 @@ export class UserService {
     return this.databaseService.user.findUnique({
       where: {
         id,
+      },
+    });
+  }
+
+  async update(updateUserDto: UpdateUserDto, cv: string) {
+    return this.databaseService.user.update({
+      where: {
+        id: updateUserDto.id,
+      },
+      data: {
+        username: updateUserDto.username,
+        cv,
       },
     });
   }

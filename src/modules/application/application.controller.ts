@@ -37,7 +37,10 @@ export class ApplicationController {
     @Body() createApplicationDto: CreateApplicationDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.applicationService.create(createApplicationDto, file.path);
+    return this.applicationService.create(
+      createApplicationDto,
+      file.path.replace('upload/', ''),
+    );
   }
 
   @Get('')

@@ -9,7 +9,7 @@ export class ApplicationService {
     return this.databaseService.applications.create({
       data: {
         userId: +createApplicationDto.userId,
-        cv: cv.replace('upload/', ''),
+        cv,
         score: 0,
         jobId: +createApplicationDto.jobId,
         enterpriseId: +createApplicationDto.enterpriseId,
