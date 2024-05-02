@@ -25,10 +25,11 @@ export class UserService {
   async update(updateUserDto: UpdateUserDto, cv: string) {
     return this.databaseService.user.update({
       where: {
-        id: updateUserDto.id,
+        id: +updateUserDto.id,
       },
       data: {
         username: updateUserDto.username,
+        phone_number: +updateUserDto.phone,
         cv,
       },
     });
