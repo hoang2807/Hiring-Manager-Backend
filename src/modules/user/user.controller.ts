@@ -7,11 +7,11 @@ import {
   Param,
   Put,
   UseInterceptors,
-  UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
@@ -31,28 +31,35 @@ export class UserController {
 
   @Put()
   @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './upload/user',
-        filename(req, file, cb) {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
+    FileFieldsInterceptor(
+      [
+        { name: 'avatar', maxCount: 1 },
+        { name: 'cv', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './upload/user',
+          filename(req, file, cb) {
+            const randomName = Array(32)
+              .fill(null)
+              .map(() => Math.round(Math.random() * 16).toString(16))
+              .join('');
+            cb(null, `${randomName}${extname(file.originalname)}`);
+          },
+        }),
+      },
+    ),
   )
   async update(
     @Body() updateUserDto: UpdateUserDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    if (file)
-    return this.userService.update(
-      updateUserDto,
-      file.path.replace('upload/', ''),
-    );
-    else return this.userService.update(updateUserDto, '')
+    let avatar = '',
+      cv = '';
+    if (files['cv'] && files['cv'][0].fieldname === 'cv')
+      cv = files['cv'][0].path.replace('upload/', '');
+    if (files['avatar'] && files['avatar'][0].fieldname === 'avatar')
+      avatar = files['avatar'][0].path.replace('upload/', '');
+    return this.userService.update(updateUserDto, avatar, cv);
   }
 }
