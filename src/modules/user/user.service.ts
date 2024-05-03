@@ -66,4 +66,14 @@ export class UserService {
       },
     });
   }
+
+  async listCv() {
+    return this.databaseService.user.findMany({
+      where: {
+        cv: {
+          not: null,
+        },
+      },
+    });
+  }
 }
