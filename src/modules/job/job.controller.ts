@@ -65,7 +65,6 @@ export class JobController {
   // async list(@Param('enterpriseId') id: string) {
   //   return this.jobService.list(+id);
   // }
-
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return this.jobService.delete(+id);

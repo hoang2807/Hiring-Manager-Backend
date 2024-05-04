@@ -89,6 +89,9 @@ model Applications {
   score Int?
   cv String
   userId Int
+  fullName String
+  email String
+  phone_number String
   jobId Int
   enterpriseId Int
   createdAt DateTime @default(now())

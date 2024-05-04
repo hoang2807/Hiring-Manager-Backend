@@ -8,12 +8,19 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['error', 'warn', 'log', 'debug', 'verbose'],
+  });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  app.useStaticAssets(join(process.cwd(), 'upload'), {
+    index: false,
+    prefix: '/public',
+  });
   const options = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -21,10 +28,6 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true,
   };
-  app.useStaticAssets(join(process.cwd(), 'upload'), {
-    index: false,
-    prefix: '/public',
-  });
   app.enableCors(options);
 
   const config = new DocumentBuilder()
