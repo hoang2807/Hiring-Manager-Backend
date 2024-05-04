@@ -13,6 +13,9 @@ export class ApplicationService {
         score: 0,
         jobId: +createApplicationDto.jobId,
         enterpriseId: +createApplicationDto.enterpriseId,
+        fullName: createApplicationDto.fullName,
+        email: createApplicationDto.email,
+        phone_number: createApplicationDto.phone_number,
       },
     });
   }

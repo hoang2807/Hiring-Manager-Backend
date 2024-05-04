@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateApplicationDto {
   @IsNotEmpty()
@@ -9,4 +9,16 @@ export class CreateApplicationDto {
 
   @IsNotEmpty()
   enterpriseId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  fullName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  phone_number: string;
 }
