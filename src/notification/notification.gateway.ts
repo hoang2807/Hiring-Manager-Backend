@@ -53,7 +53,7 @@ export class NotificationGateway
   }
 
   emitSendNotification(id: number, text: string): void {
-    this.clients.forEach((c) => c.emit(`notification-${id}`, 'hello'));
-    this.io.sockets.emit(`notification-${id}`, 'hello');
+    this.clients.forEach((c) => c.emit(`notification-${id}`, text));
+    this.io.sockets.emit(`notification-${id}`, text);
   }
 }

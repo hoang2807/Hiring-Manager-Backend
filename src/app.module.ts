@@ -11,6 +11,7 @@ import { JobModule } from './modules/job/job.module';
 import { EnterpriseModule } from './modules/enterprise/enterprise.module';
 import { ApplicationModule } from './modules/application/application.module';
 import { NotificationGateway } from './notification/notification.gateway';
+import { CvModule } from './modules/cv/cv.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { NotificationGateway } from './notification/notification.gateway';
     JobModule,
     EnterpriseModule,
     ApplicationModule,
+    CvModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationGateway],
