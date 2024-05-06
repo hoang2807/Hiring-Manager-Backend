@@ -7,12 +7,14 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  Put,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
+import { UpdateApplicationDto } from 'src/modules/application/dto/update-application.dto';
 
 @Controller('application')
 export class ApplicationController {
@@ -54,5 +56,18 @@ export class ApplicationController {
   @Get(':id')
   async list(@Param('id') id: string) {
     return this.applicationService.list(+id);
+  }
+
+  @Put(':id')
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() updateApplicationDto: UpdateApplicationDto,
+  ) {
+    return this.applicationService.updateStatus(+id, updateApplicationDto);
+  }
+
+  @Get('status/:id')
+  async getStatus(@Param('id') id: string) {
+    return this.applicationService.getStatusCode(+id);
   }
 }
