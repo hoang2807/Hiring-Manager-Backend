@@ -1,3 +1,5 @@
+import { NotificationService } from './../notification/notification.service';
+import { NotificationGateway } from './../../notification/notification.gateway';
 import { DatabaseService } from 'src/database/database.service';
 import { Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -6,7 +8,11 @@ import { Status } from '@prisma/client';
 
 @Injectable()
 export class ApplicationService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private notificationGateway: NotificationGateway,
+    private notificationService: NotificationService,
+  ) {}
   async create(createApplicationDto: CreateApplicationDto, cv: string) {
     return this.databaseService.applications.create({
       data: {
@@ -40,8 +46,65 @@ export class ApplicationService {
   }
 
   async updateStatus(id: number, updateApplicationDto: UpdateApplicationDto) {
-    const status = (await this.getStatusCode(id)).status;
-    if (status === 'NOT_SEEN')
+    const data = await this.getStatusCode(id);
+    const status = data.status;
+    const userId = data.userId;
+    const jobId = data.jobId;
+    const enterpriseId = data.enterpriseId;
+
+    const enterprise = await this.databaseService.enterprise.findUnique({
+      where: {
+        id: enterpriseId,
+      },
+    });
+    const job = await this.databaseService.job.findUnique({
+      where: {
+        id: jobId,
+      },
+    });
+
+    const name = enterprise.name;
+    const nameJob = job.title;
+
+    if (status === 'NOT_SEEN') {
+      if (updateApplicationDto.status === 'WATCHED') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
+        );
+      }
+      if (updateApplicationDto.status === 'NOT_SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+      }
+
+      if (updateApplicationDto.status === 'SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+      }
+
       return await this.databaseService.applications.update({
         where: {
           id,
@@ -50,7 +113,33 @@ export class ApplicationService {
           status: updateApplicationDto.status,
         },
       });
-    if (status === 'WATCHED' && updateApplicationDto.status !== 'WATCHED')
+    }
+    if (status === 'WATCHED' && updateApplicationDto.status !== 'WATCHED') {
+      if (updateApplicationDto.status === 'NOT_SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+      }
+
+      if (updateApplicationDto.status === 'SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+      }
       return await this.databaseService.applications.update({
         where: {
           id,
@@ -59,10 +148,35 @@ export class ApplicationService {
           status: updateApplicationDto.status,
         },
       });
+    }
     if (
       (status === 'NOT_SUITABLE' || status === 'SUITABLE') &&
       updateApplicationDto.status !== 'WATCHED'
-    )
+    ) {
+      if (updateApplicationDto.status === 'NOT_SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+        );
+      }
+      if (updateApplicationDto.status === 'SUITABLE') {
+        await this.notificationService.create(
+          userId,
+          jobId,
+          enterpriseId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+        this.notificationGateway.emitSendNotification(
+          userId,
+          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+        );
+      }
       return await this.databaseService.applications.update({
         where: {
           id,
@@ -71,6 +185,7 @@ export class ApplicationService {
           status: updateApplicationDto.status,
         },
       });
+    }
     return await this.databaseService.applications.findUnique({
       where: {
         id,
@@ -83,10 +198,13 @@ export class ApplicationService {
       where: {
         id,
       },
-      select: {
-        status: true,
-        score: true,
-      },
+      // select: {
+      //   status: true,
+      //   score: true,
+      //   enterpriseId: true,
+      //   jobId: true,
+      //   userId: true
+      // },
     });
   }
 }

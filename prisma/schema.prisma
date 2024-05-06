@@ -56,6 +56,7 @@ model User {
   fullName String?
   avatar String?
   email String @unique
+  skills String?
   phone_number Int?
   address String?
   birthday String?
@@ -94,6 +95,16 @@ model Applications {
   phone_number String
   jobId Int
   enterpriseId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model notification {
+  id Int @default(autoincrement()) @id
+  userId Int
+  enterpriseId Int
+  jobId Int
+  text String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

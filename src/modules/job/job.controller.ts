@@ -1,4 +1,3 @@
-import { NotificationGateway } from './../../notification/notification.gateway';
 import {
   Controller,
   Get,
@@ -15,10 +14,7 @@ import { UpdateJobDto } from './dto/update-job.dto';
 
 @Controller('job')
 export class JobController {
-  constructor(
-    private readonly jobService: JobService,
-    private notificationGateway: NotificationGateway,
-  ) {}
+  constructor(private readonly jobService: JobService) {}
 
   // @Get()
   // async test() {
@@ -37,7 +33,6 @@ export class JobController {
 
   @Get('pagination')
   async pagination(@Query('page') page: string, @Query('take') take: string) {
-    this.notificationGateway.emitSendNotification(1, 'hello ');
     return this.jobService.pagination(+page, +take);
   }
 

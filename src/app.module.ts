@@ -12,6 +12,7 @@ import { EnterpriseModule } from './modules/enterprise/enterprise.module';
 import { ApplicationModule } from './modules/application/application.module';
 import { NotificationGateway } from './notification/notification.gateway';
 import { CvModule } from './modules/cv/cv.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CvModule } from './modules/cv/cv.module';
     EnterpriseModule,
     ApplicationModule,
     CvModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationGateway],
