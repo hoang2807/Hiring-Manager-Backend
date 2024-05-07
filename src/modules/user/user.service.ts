@@ -36,9 +36,10 @@ export class UserService {
       });
 
       if (data.avatar)
-        fs.unlink(join(process.cwd(), 'upload', data.avatar), (err) => {
-          if (err) throw err;
-        });
+        // fs.unlink(join(process.cwd(), 'upload', data.avatar), (err) => {
+        //   if (err) throw err;
+        // });
+        fs.unlinkSync(join(process.cwd(), 'upload', data.avatar));
     }
     if (cv && data.cv !== cv) {
       await this.databaseService.user.update({
@@ -51,9 +52,10 @@ export class UserService {
       });
 
       if (data.cv)
-        fs.unlink(join(process.cwd(), 'upload', data.cv), (err) => {
-          if (err) throw err;
-        });
+        // fs.unlink(join(process.cwd(), 'upload', data.cv), (err) => {
+        //   if (err) throw err;
+        // });
+        fs.unlinkSync(join(process.cwd(), 'upload', data.cv));
     }
 
     return this.databaseService.user.update({
@@ -63,6 +65,7 @@ export class UserService {
       data: {
         username: updateUserDto.username,
         phone_number: +updateUserDto.phone,
+        skills: updateUserDto.skills,
       },
     });
   }
@@ -72,6 +75,17 @@ export class UserService {
       where: {
         cv: {
           not: null,
+        },
+      },
+    });
+  }
+
+  async search(skills: string) {
+    return this.databaseService.user.findMany({
+      where: {
+        skills: {
+          contains: skills,
+          mode: 'insensitive',
         },
       },
     });

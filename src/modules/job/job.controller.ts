@@ -16,11 +16,6 @@ import { UpdateJobDto } from './dto/update-job.dto';
 export class JobController {
   constructor(private readonly jobService: JobService) {}
 
-  // @Get()
-  // async test() {
-  //   return 'test';
-  // }
-
   @Post()
   async create(@Body() createJobDto: CreateJobDto) {
     return this.jobService.create(createJobDto);

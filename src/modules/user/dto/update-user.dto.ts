@@ -12,4 +12,8 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsString()
   phone: string;
+
+  @IsNotEmpty()
+  @IsString()
+  skills: string;
 }

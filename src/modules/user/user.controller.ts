@@ -29,6 +29,11 @@ export class UserController {
     return this.userService.listCv();
   }
 
+  @Post('search')
+  async search(@Body('skill') skill: string) {
+    return this.userService.search(skill);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findUserById(+id);
