@@ -4,7 +4,9 @@ import { DatabaseService } from 'src/database/database.service';
 import { Injectable } from '@nestjs/common';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from 'src/modules/application/dto/update-application.dto';
-import { Status } from '@prisma/client';
+// import { Status } from '@prisma/client';
+import * as fs from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class ApplicationService {
@@ -13,19 +15,40 @@ export class ApplicationService {
     private notificationGateway: NotificationGateway,
     private notificationService: NotificationService,
   ) {}
+
   async create(createApplicationDto: CreateApplicationDto, cv: string) {
-    return this.databaseService.applications.create({
-      data: {
+    const existCv = await this.databaseService.applications.findFirst({
+      where: {
         userId: +createApplicationDto.userId,
-        cv,
-        score: 0,
         jobId: +createApplicationDto.jobId,
-        enterpriseId: +createApplicationDto.enterpriseId,
-        fullName: createApplicationDto.fullName,
-        email: createApplicationDto.email,
-        phone_number: createApplicationDto.phone_number,
       },
     });
+    if (!existCv?.cv)
+      return this.databaseService.applications.create({
+        data: {
+          userId: +createApplicationDto.userId,
+          cv,
+          score: 0,
+          jobId: +createApplicationDto.jobId,
+          enterpriseId: +createApplicationDto.enterpriseId,
+          fullName: createApplicationDto.fullName,
+          email: createApplicationDto.email,
+          phone_number: createApplicationDto.phone_number,
+        },
+      });
+    else {
+      const data = await this.databaseService.applications.update({
+        where: {
+          id: existCv.id,
+        },
+        data: {
+          cv,
+        },
+      });
+      fs.unlinkSync(join(process.cwd(), 'upload', existCv.cv));
+
+      return data;
+    }
   }
 
   async list(enterpriseId: number) {
