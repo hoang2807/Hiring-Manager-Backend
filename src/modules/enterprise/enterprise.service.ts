@@ -29,13 +29,22 @@ export class EnterpriseService {
     updateEnterpriseDto: UpdateEnterpriseDto,
     path: string,
   ) {
+    const file = await this.databaseService.enterprise.findUnique({
+      where: {
+        id,
+      },
+    });
+    let image = '';
+    if (path) image = path;
+    else image = file.image;
     return this.databaseService.enterprise.update({
       where: {
         id,
       },
       data: {
-        ...updateEnterpriseDto,
-        image: path,
+        address: updateEnterpriseDto.address,
+        about_me: updateEnterpriseDto.about_me,
+        image,
       },
     });
   }

@@ -46,6 +46,12 @@ export class EnterpriseController {
     @Param('id') id: string,
     @Body() updateEnterpriseDto: UpdateEnterpriseDto,
   ) {
-    return this.enterpriseService.update(+id, updateEnterpriseDto, file.path);
+    if (file?.path)
+      return this.enterpriseService.update(
+        +id,
+        updateEnterpriseDto,
+        file?.path,
+      );
+    else return this.enterpriseService.update(+id, updateEnterpriseDto, '');
   }
 }
