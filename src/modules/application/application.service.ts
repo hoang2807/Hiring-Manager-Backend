@@ -95,11 +95,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã xem hồ sơ của bạn`,
         );
       }
       if (updateApplicationDto.status === 'NOT_SUITABLE') {
@@ -107,11 +107,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
       }
 
@@ -120,11 +120,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
       }
 
@@ -134,6 +134,7 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
+          score: updateApplicationDto.score,
         },
       });
     }
@@ -143,11 +144,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
       }
 
@@ -156,11 +157,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
       }
       return await this.databaseService.applications.update({
@@ -169,6 +170,7 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
+          score: updateApplicationDto.score,
         },
       });
     }
@@ -181,11 +183,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đánh giá hồ sơ của bạn là không phù hợp`,
         );
       }
       if (updateApplicationDto.status === 'SUITABLE') {
@@ -193,11 +195,11 @@ export class ApplicationService {
           userId,
           jobId,
           enterpriseId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
         this.notificationGateway.emitSendNotification(
           userId,
-          `${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
+          `Nhà tuyển dụng ${name} với công việc ${nameJob} đã đánh giá hồ sơ của bạn là phù hợp`,
         );
       }
       return await this.databaseService.applications.update({
@@ -206,6 +208,7 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
+          score: updateApplicationDto.score,
         },
       });
     }
@@ -221,13 +224,6 @@ export class ApplicationService {
       where: {
         id,
       },
-      // select: {
-      //   status: true,
-      //   score: true,
-      //   enterpriseId: true,
-      //   jobId: true,
-      //   userId: true
-      // },
     });
   }
 }
