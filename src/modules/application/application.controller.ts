@@ -58,12 +58,17 @@ export class ApplicationController {
     return this.applicationService.list(+id);
   }
 
-  @Put(':id')
+  @Put('status/:id')
   async updateStatus(
     @Param('id') id: string,
     @Body() updateApplicationDto: UpdateApplicationDto,
   ) {
     return this.applicationService.updateStatus(+id, updateApplicationDto);
+  }
+
+  @Put('score/:id')
+  async updateScore(@Param('id') id: string, @Body('score') score: number) {
+    return this.applicationService.updateScore(+id, score);
   }
 
   @Get('status/:id')

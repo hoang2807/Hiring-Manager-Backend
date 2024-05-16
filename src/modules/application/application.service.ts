@@ -70,6 +70,7 @@ export class ApplicationService {
 
   async updateStatus(id: number, updateApplicationDto: UpdateApplicationDto) {
     const data = await this.getStatusCode(id);
+
     const status = data.status;
     const userId = data.userId;
     const jobId = data.jobId;
@@ -80,6 +81,7 @@ export class ApplicationService {
         id: enterpriseId,
       },
     });
+
     const job = await this.databaseService.job.findUnique({
       where: {
         id: jobId,
@@ -134,7 +136,6 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
-          score: updateApplicationDto.score,
         },
       });
     }
@@ -170,7 +171,6 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
-          score: updateApplicationDto.score,
         },
       });
     }
@@ -208,13 +208,23 @@ export class ApplicationService {
         },
         data: {
           status: updateApplicationDto.status,
-          score: updateApplicationDto.score,
         },
       });
     }
     return await this.databaseService.applications.findUnique({
       where: {
         id,
+      },
+    });
+  }
+
+  async updateScore(id: number, score: number) {
+    return await this.databaseService.applications.update({
+      where: {
+        id,
+      },
+      data: {
+        score,
       },
     });
   }
