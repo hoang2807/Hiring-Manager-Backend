@@ -94,6 +94,7 @@ model Applications {
   email String
   phone_number String
   jobId Int
+  jobName String?
   enterpriseId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

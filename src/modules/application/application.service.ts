@@ -75,6 +75,7 @@ export class ApplicationService {
     const userId = data.userId;
     const jobId = data.jobId;
     const enterpriseId = data.enterpriseId;
+    const nameJob = data.jobName;
 
     const enterprise = await this.databaseService.enterprise.findUnique({
       where: {
@@ -82,14 +83,14 @@ export class ApplicationService {
       },
     });
 
-    const job = await this.databaseService.job.findUnique({
-      where: {
-        id: jobId,
-      },
-    });
+    // const job = await this.databaseService.job.findUnique({
+    //   where: {
+    //     id: jobId,
+    //   },
+    // });
 
     const name = enterprise.name;
-    const nameJob = job.title;
+    // const nameJob = job.title;
 
     if (status === 'NOT_SEEN') {
       if (updateApplicationDto.status === 'WATCHED') {
