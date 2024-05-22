@@ -17,10 +17,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   fullName: string;
 
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  avatar?: string;
+  // @ApiProperty()
+  // @IsString()
+  // avatar?: string;
 
   @ApiProperty()
   @IsString()
@@ -47,8 +46,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   gender: boolean;
 
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  cv: string;
+  // @ApiProperty()
+  // @IsString()
+  // cv: string;
 }
