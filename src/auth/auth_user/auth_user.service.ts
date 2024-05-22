@@ -21,6 +21,15 @@ export class AuthUserService {
     });
 
     if (userExists) throw new BadRequestException('User already exists');
+
+    const emailExists = await this.databaseService.user.findUnique({
+      where: {
+        email: createUserDto.email,
+      },
+    });
+
+    if (emailExists) throw new BadRequestException('Email already exists');
+
     const hash = await this.hashData(createUserDto.password);
 
     const newUser = await this.databaseService.user.create({
