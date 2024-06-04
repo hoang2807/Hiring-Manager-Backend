@@ -7,6 +7,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { GetCurrentUserId } from 'src/common/decorator/get-current-user-id.decorator';
 import { Public } from 'src/common/decorator/public.decorator';
+import { ForgetDto } from 'src/auth/auth_user/dto/forget.dto';
 
 @ApiTags('AuthUser')
 @Controller('auth-user')
@@ -29,5 +30,11 @@ export class AuthUserController {
   @Get('logout')
   async logout(@GetCurrentUserId() id: number) {
     return await this.authUseService.logout(id);
+  }
+
+  @Public()
+  @Post('forget')
+  async forget(@Body() forgetDto: ForgetDto) {
+    return await this.authUseService.forget(forgetDto);
   }
 }

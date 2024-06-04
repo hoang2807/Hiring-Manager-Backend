@@ -1,3 +1,4 @@
+import { ForgetDto } from './dto/forget.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from 'src/database/database.service';
@@ -69,6 +70,27 @@ export class AuthUserService {
       },
       data: {
         refreshToken: null,
+      },
+    });
+  }
+
+  async forget(forgetDto: ForgetDto) {
+    const user = await this.databaseService.user.findUnique({
+      where: {
+        email: forgetDto.email,
+      },
+    });
+
+    if (!user) throw new BadRequestException('User does not exits');
+
+    const hash = await this.hashData(forgetDto.password);
+
+    return await this.databaseService.user.update({
+      where: {
+        email: forgetDto.email,
+      },
+      data: {
+        password: hash,
       },
     });
   }
