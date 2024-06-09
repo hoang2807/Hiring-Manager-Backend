@@ -75,24 +75,33 @@ export class AuthUserService {
   }
 
   async forget(forgetDto: ForgetDto) {
-    const user = await this.databaseService.user.findUnique({
-      where: {
-        email: forgetDto.email,
-      },
-    });
+    try {
+      const payload = await this.jwtService.verifyAsync(forgetDto.token, {
+        secret: 'secret',
+      });
 
-    if (!user) throw new BadRequestException('User does not exits');
+      const email = payload.email;
+      const user = await this.databaseService.user.findUnique({
+        where: {
+          email,
+        },
+      });
 
-    const hash = await this.hashData(forgetDto.password);
+      if (!user) throw new BadRequestException('User does not exits');
 
-    return await this.databaseService.user.update({
-      where: {
-        email: forgetDto.email,
-      },
-      data: {
-        password: hash,
-      },
-    });
+      const hash = await this.hashData(forgetDto.password);
+
+      return await this.databaseService.user.update({
+        where: {
+          email,
+        },
+        data: {
+          password: hash,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getTokens(userId: number, username: string) {

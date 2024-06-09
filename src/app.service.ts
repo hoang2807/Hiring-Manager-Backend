@@ -8,13 +8,11 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async forget_password(email: string, token: string) {
+  async forget_password(token: string) {
     try {
-      const payload = this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync(token, {
         secret: 'secret',
       });
-
-      console.log(payload);
 
       return payload;
     } catch (error) {

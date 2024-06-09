@@ -7,10 +7,7 @@ export class AppController {
 
   @Get('forget-password')
   @Render('forget-password')
-  async forget_password(
-    @Query('email') email: string,
-    @Query('token') token: string,
-  ) {
-    return await this.appService.forget_password(email, token);
+  async forget_password(@Query('token') token: string) {
+    return await this.appService.forget_password(token);
   }
 }

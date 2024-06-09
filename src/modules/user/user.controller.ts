@@ -34,6 +34,11 @@ export class UserController {
     return this.userService.search(skill);
   }
 
+  @Get('findEmail/:email')
+  async findEmail(@Param('email') email: string) {
+    return this.userService.findUserByEmail(email);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findUserById(+id);

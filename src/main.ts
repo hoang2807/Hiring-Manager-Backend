@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from 'src/common/filter/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { RequestMethod, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
