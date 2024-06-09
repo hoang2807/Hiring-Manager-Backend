@@ -14,6 +14,7 @@ import { NotificationGateway } from './notification/notification.gateway';
 import { CvModule } from './modules/cv/cv.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { MailerModule } from './mailer/mailer.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MailerModule } from './mailer/mailer.module';
     AuthAdminModule,
     AuthUserModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({}),
     JobModule,
     EnterpriseModule,
     ApplicationModule,
@@ -31,6 +33,6 @@ import { MailerModule } from './mailer/mailer.module';
     MailerModule,
   ],
   controllers: [AppController],
-  providers: [AppService, NotificationGateway],
+  providers: [AppService, NotificationGateway, JwtService],
 })
 export class AppModule {}

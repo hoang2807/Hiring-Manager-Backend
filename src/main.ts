@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from 'src/common/filter/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
@@ -12,6 +12,7 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
   app.setGlobalPrefix('api');
+
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ResponseInterceptor());
 
@@ -21,6 +22,9 @@ async function bootstrap() {
     index: false,
     prefix: '/public',
   });
+  app.useStaticAssets(join(process.cwd(), 'src/public'));
+  app.setBaseViewsDir(join(process.cwd(), 'src/views'));
+  app.setViewEngine('pug');
   const options = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

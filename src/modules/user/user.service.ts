@@ -23,6 +23,14 @@ export class UserService {
     });
   }
 
+  async findUserByEmail(email: string) {
+    return this.databaseService.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
+
   async update(updateUserDto: UpdateUserDto, avatar: string, cv: string) {
     const data = await this.findUserById(+updateUserDto.id);
     if (avatar && data.avatar !== avatar) {

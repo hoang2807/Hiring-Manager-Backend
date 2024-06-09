@@ -1,14 +1,22 @@
+import { UserService } from './../modules/user/user.service';
 import { MailDto } from './dto/mail.dto';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
 @Injectable()
 export class MailerService {
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
   mailTransport() {
+    console.log(process.env.USER, process.env.PASS);
     const transporter = nodemailer.createTransport({
-      port: 587,
+      port: 465,
       secure: false,
+      host: 'smtp.gmail.com',
       service: 'gmail',
       auth: {
         user: process.env.USER,
@@ -20,7 +28,15 @@ export class MailerService {
   }
 
   async sendPasswordResetMail(mailDto: MailDto) {
-    const resetLink = process.env.BACKEND_HOST;
+    const user = await this.userService.findUserByEmail(mailDto.to);
+    if (!user) throw new BadRequestException('Email not exists');
+    const payload = { sub: user.id, email: mailDto.to };
+    const token = await this.jwtService.signAsync(payload, {
+      secret: 'secret',
+      expiresIn: '5m',
+    });
+
+    const resetLink = `${process.env.BACKEND_HOST}/api/forget-password?email=${mailDto.to}&token=${token}`;
 
     const mailOptions: Mail.Options = {
       from: 'hoang12a3td@gmail.com',

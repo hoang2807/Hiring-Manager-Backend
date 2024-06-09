@@ -1,12 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('forget-password')
+  @Render('forget-password')
+  async forget_password(
+    @Query('email') email: string,
+    @Query('token') token: string,
+  ) {
+    return await this.appService.forget_password(email, token);
   }
 }
